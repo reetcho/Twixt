@@ -1,20 +1,33 @@
 import java.util.List;
 
 public class Board {
-    private List<Hole> holes;
+    private Hole[][] holes;
+
+    public boolean insertFirstPin(int row, int column){
+        if(row == 0 || row ==24 || column == 0 || column == 24)
+            return false;
+        holes[row][column].setColor(Color.RED);
+        return true;
+    }
 
     public boolean insertPin(int row, int column, Player player){
-        for(Hole h : holes){
-            if(h.getRow() == row && h.getColumn() == column){
-                if(!(player.getColor() == Color.RED && (row == 0 || row == 24)) && !(player.getColor() == Color.BLUE && (column == 0 || column == 24))){
-                    h.setColor(player.getColor());
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
-        }
-        return false;
+        if((row==0 && column == 0) ||(row==0 && column==24) || (row==24 && column==0) || (row==24 && column==24))
+            return false;
+        if((player.getColor() == Color.BLUE && (row == 0 || row == 24)) || (player.getColor() == Color.RED && (column == 0 || column == 24)))
+            return false;
+
+        holes[row][column].setColor(player.getColor());
+        holes[row][column].checkIfLinkable();
+
+        return true;
+    }
+
+    public void linkPins(int row, int column){
+        if()
+    }
+
+    public Board(){
+        this.holes = new Hole[24][24];
+
     }
 }
